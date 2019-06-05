@@ -5,29 +5,20 @@ const LAST_NON_WHITESPACE = /\S+$/;
 function breakLine(input: string, columns: number): [string, string] {
   let cursor = columns;
 
-  const cursorIsAtWhitespace = () => NEXT_WHITESPACE.test(input.charAt(cursor));
-  const cursorIsAtEnd = () => cursor >= input.length;
-
-  const advanceCursorToNextNonWhitespace = () => {
+  // If cursor is at whitespace
+  if (NEXT_WHITESPACE.test(input.charAt(cursor))) {
+    // Advance cursor to next non-whitespace character
     const search = NEXT_NON_WHITESPACE.exec(input.substring(cursor));
-    if (search === null) {
-      return;
+    if (search !== null) {
+      cursor = cursor + search.index;
     }
-    cursor = cursor + search.index;
-  };
-
-  const reverseCursorToLastNonWhitespace = () => {
+    // Cursor is not at end
+  } else if (cursor < input.length) {
+    // Reverse cursor to last non-whitespace character
     const search = LAST_NON_WHITESPACE.exec(input.substring(0, cursor));
-    if (search === null || search.index === 0) {
-      return;
+    if (search !== null && search.index !== 0) {
+      cursor = search.index;
     }
-    cursor = search.index;
-  };
-
-  if (cursorIsAtWhitespace()) {
-    advanceCursorToNextNonWhitespace();
-  } else if (!cursorIsAtEnd()) {
-    reverseCursorToLastNonWhitespace();
   }
 
   return [input.substring(0, cursor), input.substring(cursor)];
