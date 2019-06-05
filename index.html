@@ -1,15 +1,40 @@
 <html>
+  <head>
+    <title>Column Wrap</title>
+    <meta charset="UTF-8" />
+  </head>
 
-<head>
-	<title>Column Wrap</title>
-	<meta charset="UTF-8" />
-</head>
+  <body>
+    <div id="app">
+      <form id="form">
+        <div>
+          <label for="input">Input</label><br />
+          <textarea id="input" rows="10" cols="80"></textarea>
+        </div>
+        <br />
+        <div>
+          <label for="columns">Columns</label><br />
+          <input id="columns" type="number" value="80" min="1" />
+        </div>
+        <br />
+        <div>
+          <button type="submit">Wrap</button>
+        </div>
+      </form>
+      <br />
+      <hr />
+      <br />
+      <div>
+        <label for="output">Output</label><br />
+        <textarea
+          id="output"
+          rows="10"
+          cols="80"
+          readonly="readonly"
+        ></textarea>
+      </div>
+    </div>
 
-<body>
-	<div id="app"></div>
-
-	<script src="src/index.ts">
-	</script>
-</body>
-
+    <script src="src/index.ts"></script>
+  </body>
 </html>
