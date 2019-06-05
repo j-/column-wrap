@@ -3,12 +3,9 @@ const NEXT_NON_WHITESPACE = /\S/;
 const LAST_NON_WHITESPACE = /\S+$/;
 
 function breakLine(input: string, columns: number): [string, string] {
-  let cursor: number;
-  let currentChar: string;
+  let cursor = columns;
 
-  const setCursor = (i: number) => (currentChar = input.charAt((cursor = i)));
-
-  const cursorIsAtWhitespace = () => NEXT_WHITESPACE.test(currentChar);
+  const cursorIsAtWhitespace = () => NEXT_WHITESPACE.test(input.charAt(cursor));
   const cursorIsAtEnd = () => cursor >= input.length;
 
   const advanceCursorToNextNonWhitespace = () => {
@@ -16,7 +13,7 @@ function breakLine(input: string, columns: number): [string, string] {
     if (search === null) {
       return;
     }
-    setCursor(cursor + search.index);
+    cursor = cursor + search.index;
   };
 
   const reverseCursorToLastNonWhitespace = () => {
@@ -24,10 +21,8 @@ function breakLine(input: string, columns: number): [string, string] {
     if (search === null || search.index === 0) {
       return;
     }
-    setCursor(search.index);
+    cursor = search.index;
   };
-
-  setCursor(columns);
 
   if (cursorIsAtWhitespace()) {
     advanceCursorToNextNonWhitespace();
