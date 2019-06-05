@@ -159,3 +159,11 @@ it('wraps "Hello world" at 12 cols', () => {
   const actual = columnWrap(input, columns);
   expect(actual).toBe(expected);
 });
+
+it('wraps "Hello \\"world\\"" at 7 cols', () => {
+  const columns = 7;
+  const input = 'Hello "world"';
+  const expected = 'Hello \n"world"';
+  const actual = columnWrap(input, columns);
+  expect(actual).toBe(expected);
+});

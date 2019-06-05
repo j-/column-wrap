@@ -1,22 +1,26 @@
+const NEXT_WHITESPACE = /\s/;
+const NEXT_NON_WHITESPACE = /\S/;
+const LAST_NON_WHITESPACE = /\S+$/;
+
 function breakLine(input: string, columns: number): [string, string] {
   let cursor: number;
   let currentChar: string;
 
   const setCursor = (i: number) => (currentChar = input.charAt((cursor = i)));
 
-  const cursorIsAtWhitespace = () => /\s/.test(currentChar);
+  const cursorIsAtWhitespace = () => NEXT_WHITESPACE.test(currentChar);
   const cursorIsAtEnd = () => cursor >= input.length;
 
   const advanceCursorToNextNonWhitespace = () => {
-    const search = /\S/.exec(input.substring(cursor));
+    const search = NEXT_NON_WHITESPACE.exec(input.substring(cursor));
     if (search === null) {
       return;
     }
     setCursor(cursor + search.index);
   };
 
-  const reverseCursorToLastNonWord = () => {
-    const search = /(?:\w+(?!\w))+$/.exec(input.substring(0, cursor));
+  const reverseCursorToLastNonWhitespace = () => {
+    const search = LAST_NON_WHITESPACE.exec(input.substring(0, cursor));
     if (search === null || search.index === 0) {
       return;
     }
@@ -28,7 +32,7 @@ function breakLine(input: string, columns: number): [string, string] {
   if (cursorIsAtWhitespace()) {
     advanceCursorToNextNonWhitespace();
   } else if (!cursorIsAtEnd()) {
-    reverseCursorToLastNonWord();
+    reverseCursorToLastNonWhitespace();
   }
 
   return [input.substring(0, cursor), input.substring(cursor)];
